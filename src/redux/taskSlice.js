@@ -53,7 +53,7 @@ export const toggleReminder = createAsyncThunk("toggleReminder", async (id) => {
 
 export const slice = createSlice({
   name: "task",
-  initialState: { tasks: [], showAddTask: false },
+  initialState: { tasks: [], showAddTask: false, status: null },
   reducers: {
     toggleAddTask: (state) => {
       state.showAddTask = !state.showAddTask;
