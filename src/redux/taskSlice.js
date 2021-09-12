@@ -53,45 +53,38 @@ export const toggleReminder = createAsyncThunk("toggleReminder", async (id) => {
 
 export const slice = createSlice({
   name: "task",
-  initialState: { tasks: [], showAddTask: false, status: null },
+  initialState: { tasks: [], showAddTask: false },
   reducers: {
     toggleAddTask: (state) => {
       state.showAddTask = !state.showAddTask;
     },
   },
   extraReducers: {
-    [fetchTasks.pending]: (state) => {
-      state.status = "loading";
-    },
     [fetchTasks.fulfilled]: (state, action) => {
       state.tasks = action.payload;
-      state.status = "success";
     },
     [fetchTasks.rejected]: (state) => {
-      state.status = "failed";
+      state.tasks = [];
     },
     [addTask.fulfilled]: (state, action) => {
       state.tasks.push(action.payload.data);
-      state.status = "success";
     },
     [addTask.rejected]: (state) => {
-      state.status = "failed";
+      state.tasks = [];
     },
     [deleteTask.fulfilled]: (state, action) => {
       state.tasks = state.tasks.filter((task) => task.id !== action.payload);
-      state.status = "success";
     },
     [deleteTask.rejected]: (state) => {
-      state.status = "failed";
+      state.tasks = [];
     },
     [toggleReminder.fulfilled]: (state, action) => {
       state.tasks = state.tasks.map((task) =>
         task.id === action.payload.id ? { ...task, reminder: action.payload.reminder } : task
       );
-      state.status = "success";
     },
     [toggleReminder.rejected]: (state) => {
-      state.status = "failed";
+      state.tasks = [];
     },
   },
 });
